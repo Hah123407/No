@@ -1,11 +1,11 @@
 repeat task.wait() until game:IsLoaded()
 print('exec')
 
-local Repository = 'https://raw.githubusercontent.com/geoduude/LinoriaLib/main/'
+local repo = "https://raw.githubusercontent.com/deividcomsono/Obsidian/main/"
 
-local Library = loadstring(game:HttpGet(Repository .. 'Library.lua'))()
-local ThemeManager = loadstring(game:HttpGet(Repository .. 'addons/ThemeManager.lua'))()
-local SaveManager = loadstring(game:HttpGet(Repository .. 'addons/SaveManager.lua'))()
+local Library = loadstring(game:HttpGet(repo .. "Library.lua"))()
+local ThemeManager = loadstring(game:HttpGet(repo .. "addons/ThemeManager.lua"))()
+local SaveManager = loadstring(game:HttpGet(repo .. "addons/SaveManager.lua"))()
 
 -- Variables
 
@@ -235,11 +235,12 @@ end)
 -- UI
 
 local Window = Library:CreateWindow({
-    Title = ' bibulus.club', 
-    Center = true,  
-    AutoShow = true, 
-    TabPadding = 3, 
-    MenuFadeTime = 0.2 
+		
+    Title = "Amalgam [SCRAPPED] ",
+	Footer = "SCRAPPED",
+	Icon = 0,
+	NotifySide = "Right",
+	ShowCustomCursor = true,
 })
 local Tabs = { 
     Aimbot = Window:AddTab('Aimbot'), 
@@ -1336,64 +1337,21 @@ MenuProperties:AddButton('Unload', function()
 end)
 ]]
 
-MenuProperties:AddLabel('Menu Keybind'):AddKeyPicker('MenuKeybind', { Default = 'Delete', NoUI = true, Text = 'Menu keybind' }) 
+MenuProperties:AddLabel('Menu Keybind'):AddKeyPicker('MenuKeybind', { Default = 'Delete', NoUI = true, Text = 'Menukeybind' }) 
 MenuProperties:AddToggle("keybindmenu",{ Text = "Show Keybinds", Default = false, })
 MenuProperties:AddDivider()
-MenuProperties:AddToggle('Watermark', { Text = 'Show Watermark', Default = true }):OnChanged(function() Library:SetWatermarkVisibility(Toggles.Watermark.Value) end)
-MenuProperties:AddDropdown("waterMarkSettingsDrop", {Values = {"Config Name", "Nickname", "Latency", "Current Time", "Framerate", "Week Day"}, Default = 0, Multi = true, Text = "Watermark Settings"})
 
 Toggles.keybindmenu:OnChanged(function()
     Library.KeybindFrame.Visible = Toggles.keybindmenu.Value
 end)
 
-game:GetService("RunService").RenderStepped:Connect(function(deltaTime)
-	local Main = "bibulus.club"
-	local NetworkPing = string.format("%0.0f", LocalPlayer:GetNetworkPing() * 1000)
-	local DateTime = os.date('%I:%M:%S %p')
-
-	local Split = " | "
-	
-	for k, _ in Options.waterMarkSettingsDrop.Value do
-		if k == "Default" then
-			Main = "bibulus.club" .. Main
-		elseif k == "Default" then
-			k = "Default"; value = true;
-		end
-
-		if k == "Config Name" then
-			Main = Main .. Split .. "ConfigName"
-		end
-
-		if k == "Nickname" then
-			Main = Main .. Split .. tostring(LocalPlayer.DisplayName)
-		end
-
-		if k == "Latency" then
-			Main = Main .. Split .. NetworkPing .. " ms"
-		end
-
-		if k == "Current Time" then
-			Main = Main .. Split .. DateTime
-		end
-
-		if k == "Framerate" then
-			Main = Main .. Split .. math.floor(1 / deltaTime) .. " fps"
-		end
-
-		if k == "Week Day" then
-			Main = Main .. Split .. os.date("%A")
-		end
-	end
-
-	Library:SetWatermark(Main)
-end)
 
 Library.ToggleKeybind = Options.MenuKeybind
 ThemeManager:SetLibrary(Library)
-ThemeManager:SetFolder('bibulus.club')
+ThemeManager:SetFolder('Amalgam.scrapped')
 ThemeManager:ApplyToTab(Tabs.Config)
 SaveManager:SetLibrary(Library)
-SaveManager:SetFolder('bibulus.club/TypicalColors2')
+SaveManager:SetFolder('amalgam.scrapped/TypicalColors2')
 SaveManager:BuildConfigSection(Tabs.Config) 
 SaveManager:IgnoreThemeSettings()
 SaveManager:LoadAutoloadConfig()
