@@ -5,13 +5,35 @@ end
 print('[Red.Leaf] Loading...')
 local TimeToLoad = tick()
 
-local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/xataxell/library/main/Linoria.lua"))()
-local ThemeManager = loadstring(game:HttpGet("https://raw.githubusercontent.com/xataxell/library/main/themes.lua"))()
-local SaveManager = loadstring(game:HttpGet("https://raw.githubusercontent.com/xataxell/library/main/saving.lua"))()
-local Window = Library:CreateWindow({Title = 'Red.Leaf for Typical Colors 2', Center = true, AutoShow = true})
-Library:SetWatermark('Red.Leaf')
+local repo = "https://raw.githubusercontent.com/deividcomsono/Obsidian/main/"
+local Library = loadstring(game:HttpGet(repo .. "Library.lua"))()
+local ThemeManager = loadstring(game:HttpGet(repo .. "addons/ThemeManager.lua"))()
+local SaveManager = loadstring(game:HttpGet(repo .. "addons/SaveManager.lua"))()
 
-local Aim = Window:AddTab('Aim')
+local Options = Library.Options
+local Toggles = Library.Toggles
+
+Library.ForceCheckbox = false -- Forces AddToggle to AddCheckbox
+Library.ShowToggleFrameInKeybinds = true -- Make toggle keybinds work inside the keybinds UI (aka adds a toggle to the UI). Good for mobile users (Default value = true)
+
+local Window = Library:CreateWindow({
+	-- Set Center to true if you want the menu to appear in the center
+	-- Set AutoShow to true if you want the menu to appear when it is created
+	-- Set Resizable to true if you want to have in-game resizable Window
+	-- Set MobileButtonsSide to "Left" or "Right" if you want the ui toggle & lock buttons to be on the left or right side of the window
+	-- Set ShowCustomCursor to false if you don't want to use the Linoria cursor
+	-- NotifySide = Changes the side of the notifications (Left, Right) (Default value = Left)
+	-- Position and Size are also valid options here
+	-- but you do not need to define them unless you are changing them :)
+
+	Title = "Pedo.leaf",
+	Footer = "Pedo.Leaf",
+	Icon = 'leaf',
+	NotifySide = "Right",
+	ShowCustomCursor = true,
+})
+
+local Aim = Window:AddTab('Aim', 'plus')
 local Aimbot = Aim:AddLeftGroupbox('Aimbot')
 local HitboxExpander = Aim:AddRightGroupbox('Hitbox Expander')
 Aimbot:AddToggle('AimbotToggle', { Text = 'Aimbot', Default = false, Tooltip = 'Moves your view to the closest player'}):AddKeyPicker('AimbotBind', { Default = 'None', NoUI = false, Mode = 'Hold', Text = 'Aimkey' })
@@ -260,65 +282,7 @@ end
 game:GetService("RunService").RenderStepped:Connect(function() if Library.Unloaded then return end if Toggles.customfov.Value then game:GetService('Workspace').CurrentCamera.FieldOfView = Options.customfovamount.Value end; if Toggles.NoWatermark.Value then Library:SetWatermarkVisibility(Toggles.NoWatermark.Value) else Library:SetWatermarkVisibility(false) end; if Toggles.DisableMovement.Value and Library.Toggled then game:GetService('ContextActionService'):BindAction('FreezeMovement', function() return Enum.ContextActionResult.Sink end, false, unpack(Enum.PlayerActions:GetEnumItems())); else game:GetService('ContextActionService'):UnbindAction('FreezeMovement'); end end)
 
 spawn(function()
-    game:GetService("RunService").RenderStepped:Connect(function(frametime)
-        local stringorder = "Red.Leaf"
-        if Options.WatermarkSettings.Value["Display Name"] == true then
-            stringorder = stringorder .. " | " .. 'User: ' .. tostring(game:GetService('Players').LocalPlayer.DisplayName)
-        end
-        if Options.WatermarkSettings.Value["Config Name"] == true then
-            if stringorder ~= "Red.Leaf" then
-                stringorder = stringorder
-            end
-            stringorder = stringorder .. " | " .. tostring(ConfigName)
-        end
-        if Options.WatermarkSettings.Value["Time"] == true then
-            if stringorder ~= "Red.Leaf" then
-                stringorder = stringorder
-            end
-            stringorder = stringorder .. " | " .. os.date('%I:%M:%S %p')
-        end
-        if Options.WatermarkSettings.Value["Date"] == true then
-            if stringorder ~= "Red.Leaf" then
-                stringorder = stringorder
-            end
-            stringorder = stringorder .. " | " .. os.date("%B %d") .. (os.date("%d"):sub(-1) == "1" and (os.date("%d") ~= "11" and "st" or "") or os.date("%d"):sub(-1) == "2" and (os.date("%d") ~= "12" and "nd" or "") or os.date("%d"):sub(-1) == "3" and (os.date("%d") ~= "13" and "rd" or "") or "th") .. ", " .. os.date("%Y")
-        end
-        if Options.WatermarkSettings.Value["Framerate"] == true then
-            if stringorder ~= "Red.Leaf" then
-                stringorder = stringorder
-            end
-            stringorder = stringorder .. " | " .. math.floor(1/frametime) .. ' fps'
-        end
-        if Options.WatermarkSettings.Value["Latency"] == true then
-            if stringorder ~= "Red.Leaf" then
-                stringorder = stringorder
-            end
-            stringorder = stringorder .. " | " .. math.floor(game:GetService("Stats").Network.ServerStatsItem["Data Ping"]:GetValue()) .. ' ms'
-        end
-        if Options.WatermarkColorSettings.Value['Cheat Name'] then
-            stringorder = string.format('Red.<font color="rgb(%d, %d, %d)">%s</font>%s', Library.AccentColor.R * 255, Library.AccentColor.G * 255, Library.AccentColor.B * 255, "Leaf", string.sub(stringorder, #("Red.Leaf") + 1))
-        end
-        if Options.WatermarkColorSettings.Value["Display Name"] then
-            stringorder = string.gsub(stringorder, tostring(game:GetService('Players').LocalPlayer.DisplayName), string.format('<font color="rgb(%d, %d, %d)">%s</font>', Library.AccentColor.R * 255, Library.AccentColor.G * 255, Library.AccentColor.B * 255, tostring(game:GetService('Players').LocalPlayer.DisplayName)))
-        end
-        if Options.WatermarkColorSettings.Value["Config Name"] then
-            stringorder = string.gsub(stringorder, tostring(ConfigName), string.format('<font color="rgb(%d, %d, %d)">%s</font>', Library.AccentColor.R * 255, Library.AccentColor.G * 255, Library.AccentColor.B * 255, tostring(ConfigName)))
-        end
-        if Options.WatermarkColorSettings.Value["Time"] then
-            stringorder = string.gsub(stringorder, os.date('%I:%M:%S %p'), string.format('<font color="rgb(%d, %d, %d)">%s</font>', Library.AccentColor.R * 255, Library.AccentColor.G * 255, Library.AccentColor.B * 255, os.date('%I:%M:%S %p')))
-        end
-        if Options.WatermarkColorSettings.Value["Date"] then
-            stringorder = string.gsub(stringorder, os.date("%B %d") .. (os.date("%d"):sub(-1) == "1" and (os.date("%d") ~= "11" and "st" or "") or os.date("%d"):sub(-1) == "2" and (os.date("%d") ~= "12" and "nd" or "") or os.date("%d"):sub(-1) == "3" and (os.date("%d") ~= "13" and "rd" or "") or "th") .. ", " .. os.date("%Y"), string.format('<font color="rgb(%d, %d, %d)">%s</font>', Library.AccentColor.R * 255, Library.AccentColor.G * 255, Library.AccentColor.B * 255, os.date("%B %d") .. (os.date("%d"):sub(-1) == "1" and (os.date("%d") ~= "11" and "st" or "") or os.date("%d"):sub(-1) == "2" and (os.date("%d") ~= "12" and "nd" or "") or os.date("%d"):sub(-1) == "3" and (os.date("%d") ~= "13" and "rd" or "") or "th") .. ", " .. os.date("%Y")))
-        end
-        if Options.WatermarkColorSettings.Value["Framerate"] then
-            stringorder = string.gsub(stringorder, math.floor(1/frametime) .. ' fps', string.format('<font color="rgb(%d, %d, %d)">%s</font>', Library.AccentColor.R * 255, Library.AccentColor.G * 255, Library.AccentColor.B * 255, math.floor(1/frametime) .. ' fps'))
-        end
-        if Options.WatermarkColorSettings.Value["Latency"] then
-            stringorder = string.gsub(stringorder, math.floor(game:GetService("Stats").Network.ServerStatsItem["Data Ping"]:GetValue()) .. ' ms', string.format('<font color="rgb(%d, %d, %d)">%s</font>', Library.AccentColor.R * 255, Library.AccentColor.G * 255, Library.AccentColor.B * 255, math.floor(game:GetService("Stats").Network.ServerStatsItem["Data Ping"]:GetValue()) .. ' ms'))
-        end
-        Library:SetWatermark(stringorder)
-    end)
-end)
+    
 
 game:GetService("RunService").RenderStepped:Connect(function() if Toggles.customfov.Value then game:GetService('Workspace').CurrentCamera.FieldOfView = Options.customfovamount.Value end; if Toggles.NoWatermark.Value then Library:SetWatermarkVisibility(Toggles.NoWatermark.Value) else Library:SetWatermarkVisibility(false) end end)
 
@@ -350,7 +314,7 @@ local GetMouseLocation = UserInputService.GetMouseLocation
 local GetPartsObscuringTarget = Camera.GetPartsObscuringTarget
 
 local function automaticdetonate()
-    if game:GetService('Players').LocalPlayer:FindFirstChild('Status'):FindFirstChild('Class').Value == "Annihilator" and LocalPlayer:FindFirstChild('Status'):FindFirstChild('Loadout') and LocalPlayer:FindFirstChild('Status'):FindFirstChild('Loadout'):FindFirstChild('Secondary') and LocalPlayer:FindFirstChild('Status'):FindFirstChild('Loadout'):FindFirstChild('Secondary'):GetAttribute("Item") == LocalPlayer.Character:GetAttribute("EquippedWeapon") then
+    if game:GetService('Players').LocalPlayer:FindFirstChild('Status'):FindFirstChild('Class').Value == "Annihilator" and LocalPlayer:FindFirstChild('Status'):FindFirstChild('Loadout') and LocalPlayer:FindFirstChild('Status'):FindFirsthild('Loadout'):FindFirstChild('Secondary') and LocalPlayer:FindFirstChild('Status'):FindFirstChild('Loadout'):FindFirstChild('Secondary'):GetAttribute("Item") == LocalPlayer.Character:GetAttribute("EquippedWeapon") then
         for i,v in pairs(game:GetService('Workspace')["Destructable"]:GetChildren()) do
             if v:FindFirstChild('Owner') and v:FindFirstChild('Team') then
                 if v.Name == string.format('%s stickybomb', LocalPlayer.Name) then
