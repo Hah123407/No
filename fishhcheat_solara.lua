@@ -258,49 +258,36 @@ RemoveShit(RepStorage.Other.ScaryMonsters.Trooper:FindFirstChild("Highlight")) -
 
 RemoveShit = nil
 
-local repo = 'https://raw.githubusercontent.com/mstudio45/LinoriaLib/refs/heads/main/'
+local kurai = loadstring(
+    game:HttpGetAsync(`https://raw.githubusercontent.com/focat69/kurai/refs/heads/main/source?t={tostring(tick())}`)
+)()
 
-local Library = loadstring(game:HttpGet(repo .. 'Library.lua'))()
-local ThemeManager = loadstring(game:HttpGet(repo .. 'addons/ThemeManager.lua'))()
-local SaveManager = loadstring(game:HttpGet(repo .. 'addons/SaveManager.lua'))()
-local Options = getgenv().Linoria.Options
-local Toggles = getgenv().Linoria.Toggles
-
-Library.ShowToggleFrameInKeybinds = true -- Make toggle keybinds work inside the keybinds UI (aka adds a toggle to the UI). Good for mobile users (Default value = true)
-Library.ShowCustomCursor = true -- Toggles the Linoria cursor globaly (Default value = true)
-Library.NotifySide = "Left" -- Changes the side of the notifications globaly (Left, Right) (Default value = Left)
-
-local Window = Library:CreateWindow({
-	Title = 'FishhCheat v2 (Solara)',
-	Center = true,
-	AutoShow = true,
-	Resizable = true,
-	ShowCustomCursor = true,
-	NotifySide = "Left",
-	TabPadding = 8,
-	MenuFadeTime = 0.2
+local ui = kurai.new({
+    Name = "FishCheat",
+    GameName = "Typical Colors 2",
+    ScriptHubName = "Solara build",
+    Tabs = {"Aim", "Visuals", "Mods", "Automation", "Misc", "UI Settings"}
 })
 
-local Tabs = {
-	Aim = Window:AddTab('Aim'),
-	Visuals = Window:AddTab('Visuals'),
-    Mods = Window:AddTab('Mods'),
-	Automation = Window:AddTab('Automation'),
-	Misc = Window:AddTab('Misc'),
-	['UI Settings'] = Window:AddTab('UI Settings'),
-}
 
-local GB_Aimbot = Tabs.Aim:AddLeftGroupbox('Aimbot')
-GB_Aimbot:AddToggle('AimbotToggle', { Text = 'Aimbot', Default = true, Tooltip = 'Aims at enemies'}):AddKeyPicker('AimbotBind', { Default = 'LeftShift', NoUI = false, Mode = 'Hold', Text = 'Aimkey' })
-GB_Aimbot:AddToggle('ProjAimbotToggle', { Text = 'Projectile Aimbot (BETA)', Default = true, Tooltip = '*Attempts* to predict player movement for projectile weapons\nUse hitbox expander for grenade launchers.'})
-GB_Aimbot:AddToggle('Wallcheck', { Text = 'Wallcheck', Default = false, Tooltip = 'Raycasts dont work properly on Solara, toggled off by default.'})
-GB_Aimbot:AddDropdown("TargetPart", {Values = {'Head', 'UpperTorso', 'HumanoidRootPart'}, Default = 3, Multi = false, Text = "Aimbot Part"})
-GB_Aimbot:AddToggle('AimbotAutoShoot', { Text = 'Autoshoot', Default = false, Tooltip = 'Automatically shoots when aimbot finds a target'})
-GB_Aimbot:AddDivider()
-GB_Aimbot:AddToggle('AimbotOnlyFOVVis', { Text = 'FOV Check', Default = false, Tooltip = 'Only aims at enemies within FOV'})
-GB_Aimbot:AddSlider('AimbotFOV', {Text = 'FOV', Default = 60, Min = 1, Max = 90, Rounding = 2, Compact = true})
-GB_Aimbot:AddToggle('AimbotShowFOV', { Text = 'Show FOV Circle', Default = false, Tooltip = 'Draw FOV Circle on screen'})
-GB_Aimbot:AddLabel('Fishhcheat is a free script available only on GitHub and v3rmillion. Do not use any other links!\nMade by FishhHvH', true)
+local Aimtab = ui.Tabs["Aim"]
+local Visualstab = ui.Tabs["Visuals"]
+local Modstab = ui.Tabs["Mods"]
+local AutomationTab = ui.Tabs["Automation"]
+local MiscTab = ui.Tabs["Misc"]
+local ['UI Settings'] = ui.Tabs["UI Settings"]
+
+
+Aimtab:AddToggle('AimbotToggle', { Text = 'Aimbot', Default = true, Tooltip = 'Aims at enemies'}):AddKeyPicker('AimbotBind', { Default = 'LeftShift', NoUI = false, Mode = 'Hold', Text = 'Aimkey' })
+Aimtab:AddToggle('ProjAimbotToggle', { Text = 'Projectile Aimbot (BETA)', Default = true, Tooltip = '*Attempts* to predict player movement for projectile weapons\nUse hitbox expander for grenade launchers.'})
+Aimtab:AddToggle('Wallcheck', { Text = 'Wallcheck', Default = false, Tooltip = 'Raycasts dont work properly on Solara, toggled off by default.'})
+Aimtab:AddDropdown("TargetPart", {Values = {'Head', 'UpperTorso', 'HumanoidRootPart'}, Default = 3, Multi = false, Text = "Aimbot Part"})
+Aimtab:AddToggle('AimbotAutoShoot', { Text = 'Autoshoot', Default = false, Tooltip = 'Automatically shoots when aimbot finds a target'})
+Aimtab:AddDivider()
+Aimtab:AddToggle('AimbotOnlyFOVVis', { Text = 'FOV Check', Default = false, Tooltip = 'Only aims at enemies within FOV'})
+Aimtab:AddSlider('AimbotFOV', {Text = 'FOV', Default = 60, Min = 1, Max = 90, Rounding = 2, Compact = true})
+Aimtab:AddToggle('AimbotShowFOV', { Text = 'Show FOV Circle', Default = false, Tooltip = 'Draw FOV Circle on screen'})
+Aimtab:AddLabel('Fishhcheat is a free script available only on GitHub and v3rmillion. Do not use any other links!\nMade by FishhHvH', true)
 --GB_Aimbot:AddDivider() -- FINISH THIS!
 --GB_Aimbot:AddToggle('AimbotLegitMelee', { Text = 'Legit Melee', Default = true, Tooltip = 'Enable distance check for melee'})
 
