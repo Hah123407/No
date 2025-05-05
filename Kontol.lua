@@ -1,12 +1,4 @@
---[[
-    _____      __    __         __               __
-   / __(_)____/ /_  / /_  _____/ /_  ___  ____ _/ /_
-  / /_/ / ___/ __ \/ __ \/ ___/ __ \/ _ \/ __ `/ __/
- / __/ (__  ) / / / / / / /__/ / / /  __/ /_/ / /_
-/_/ /_/____/_/ /_/_/ /_/\___/_/ /_/\___/\__,_/\__/	v2 (Solara)
-4th March 2025
 
-]]
 
 repeat task.wait() until game:IsLoaded()
 
@@ -271,7 +263,7 @@ Library.ShowCustomCursor = true -- Toggles the Linoria cursor globaly (Default v
 Library.NotifySide = "Left" -- Changes the side of the notifications globaly (Left, Right) (Default value = Left)
 
 local Window = Library:CreateWindow({
-	Title = 'FishhCheat v2 (Solara)',
+	Title = 'Kontol.XYZ',
 	Center = true,
 	AutoShow = true,
 	Resizable = true,
@@ -733,7 +725,7 @@ local WatermarkConnection = RunService.RenderStepped:Connect(function()
 		FrameCounter = 0;
 	end;
 	if WatermarkVisible then
-		Library:SetWatermark(('FishhCheat v2 | %s fps | %s ms'):format(
+		Library:SetWatermark(('Kontol.XYZ | %s fps | %s ms'):format(
 			math.floor(FPS),
 			math.floor(Ping)
 		));
